@@ -4,8 +4,9 @@ RUN apk add --no-cache git curl bash
 
 WORKDIR /app
 
-# Placeholder: dependencies will come from mounted volume
-RUN echo "# Frontend will install its own dependencies at runtime"
+# Install base frontend dependencies
+COPY frontend/package.json /app/package.json
+RUN npm install -g @angular/cli && npm install || true
 
 RUN git config --global user.name "AI SDLC" && \
     git config --global user.email "ai@sdlc.local"
