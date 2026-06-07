@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "frontend": {
+    "frontend-ui": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -11,23 +11,49 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular/build:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/frontend",
+            "outputPath": "dist/frontend-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/assets"],
             "styles": ["src/styles.css"],
             "scripts": []
-          }
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular/dev-server:dev-server",
-          "options": {
-            "buildTarget": "frontend:build"
-          }
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "frontend-ui:build:production"
+            },
+            "development": {
+              "buildTarget": "frontend-ui:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
         }
       }
     }
